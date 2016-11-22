@@ -1,0 +1,27 @@
+apply plugin: 'scala'
+apply plugin: 'maven-publish'
+apply plugin: 'eclipse'
+repositories {
+    mavenLocal()
+    maven {
+        url cstiNexusURLPrivate
+        credentials {
+            username cstiNexusUser
+            password cstiNexusPassword
+        }
+    }
+}
+
+dependencies {
+    compile 'de.hawhamburg.csti.framework:jvm-framework:0.1.0-SNAPSHOT'
+    compile 'de.hawhamburg.csti.groupwork.api:gesture-api:0.0.2-SNAPSHOT'
+    compile 'de.hawhamburg.csti.skeleton:skeleton-api:0.9.0-SNAPSHOT'
+}
+
+task runAgent (type: JavaExec, dependsOn: classes){
+    main = "de.hawhamburg.csti.framework.Main"
+    args = ["de.hawhamburg.csti.groupwork.gesturedetection.GestureDetectionAgent"]
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties = System.properties
+}
+
